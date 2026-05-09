@@ -24,6 +24,9 @@ pub type JobId = u64;
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
 pub enum JobStatus {
     Queued,
+    Running,
+    Success,
+    Failed,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

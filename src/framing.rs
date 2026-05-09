@@ -7,7 +7,7 @@ use tokio::{
     net::UnixStream,
 };
 
-use crate::{JobSummary, Request, Response, scheduler::Queue};
+use crate::{JobSummary, Request, Response, daemon::scheduler::Queue};
 
 pub async fn write_message<W, T>(writer: &mut W, msg: &T) -> Result<()>
 where

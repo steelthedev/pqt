@@ -2,10 +2,24 @@ use std::{collections::VecDeque, path::PathBuf};
 
 use crate::{JobId, JobStatus, JobSummary};
 
+use serde::{Deserialize, Serialize};
+
 #[derive(Default)]
 pub struct Queue {
     next_id: JobId,
     jobs: VecDeque<JobSummary>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum SchedulerMsg {
+    Add {
+        cmd: Vec<String>,
+        cwd: PathBuf,
+        reply: Vec<String>,
+    },
+    List {
+        reply: Vec<String>,
+    },
 }
 
 impl Queue {

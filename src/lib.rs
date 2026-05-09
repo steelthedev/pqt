@@ -1,9 +1,8 @@
-mod daemon;
-mod framing;
-mod paths;
-mod protocol;
+pub mod daemon;
+pub mod framing;
+pub mod paths;
+pub mod protocol;
 
-pub use daemon::*;
 pub use framing::*;
 pub use paths::*;
 pub use protocol::*;
