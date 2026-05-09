@@ -83,7 +83,7 @@ cargo fmt --check
 ## Roadmap
 
 - [x] **PQ-001a** — UDS transport with length-prefixed JSON framing; Ping/Pong handshake
-- [ ] **PQ-001b** — `add` and `list` subcommands; in-memory queue
+- [x] **PQ-001b** — `add` and `list` subcommands; in-memory queue
 - [ ] **PQ-001c** — Job execution with parallelism cap; per-job log capture
 - [ ] **PQ-001d** — `logs`, `kill`, `rm` subcommands
 - [ ] **PQ-001e** — State persistence and recovery across daemon restarts

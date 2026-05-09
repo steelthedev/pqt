@@ -1,7 +1,9 @@
-use std::path::Path;
+use std::{
+    path::Path,
+    sync::{Arc, Mutex},
+};
 
-use anyhow::Result;
-use pqt::{Request, Response, SOCKET_PATH, read_message, write_message};
+use pqt::{SOCKET_PATH, handle_connection, scheduler::Queue};
 use tokio::net::UnixListener;
 
 #[tokio::main]
@@ -13,28 +15,19 @@ async fn main() -> anyhow::Result<()> {
     }
 
     let listener = UnixListener::bind(path)?;
+    println!("daemon listening on {listener:?}");
+
+    let queue = Arc::new(Mutex::new(Queue::default()));
 
     loop {
         match listener.accept().await {
-            Ok((stream, addr)) => {
-                println!("New client connected!");
-                println!("####################");
-                println!("Address {:#?}", addr);
-                handle_connection(stream).await?;
+            Ok((stream, _addr)) => {
+                let queue = Arc::clone(&queue);
+                handle_connection(stream, queue).await?;
             }
             Err(err) => {
                 eprintln!("connection error: {err}")
             }
         }
     }
-}
-
-async fn handle_connection(mut stream: tokio::net::UnixStream) -> Result<()> {
-    let req: Request = read_message(&mut stream).await?;
-    let res = match req {
-        Request::Ping => Response::Pong,
-    };
-    write_message(&mut stream, &res).await?;
-    println!("client said {:#?}", req);
-    Ok(())
 }
